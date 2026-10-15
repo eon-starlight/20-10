@@ -33,32 +33,27 @@ const magicTitles = [
   {
     title: "Nữ Thần Nụ Cười Tỏa Nắng ☀️",
     badge: "Chỉ số rạng ngời: 100/100",
-    desc: "Mỗi khi bạn cười, cả phòng học như được bừng sáng. Năng lượng tích cực của bạn chính là liều thuốc ngọt ngào nhất cho mọi người xung quanh!",
-    privilege: "Đặc quyền 20/10: Nhận ngay 1 tràng pháo tay và được ưu tiên khao trà sữa bất cứ lúc nào!"
+    desc: "Mỗi khi bạn cười, cả phòng học như được bừng sáng. Năng lượng tích cực của bạn chính là liều thuốc ngọt ngào nhất cho mọi người xung quanh!"
   },
   {
     title: "Nàng Thơ Dịu Dàng & Tinh Tế 🌸",
     badge: "Chỉ số đáng yêu: Vô cực 💖",
-    desc: "Sự ân cần, biết lắng nghe và tấm lòng ấm áp của bạn luôn khiến mọi người cảm thấy bình yên và được trân trọng.",
-    privilege: "Đặc quyền 20/10: Được các bạn nam trong lớp tình nguyện xách cặp và dọn bàn ghế cả ngày!"
+    desc: "Sự ân cần, biết lắng nghe và tấm lòng ấm áp của bạn luôn khiến mọi người cảm thấy bình yên và được trân trọng."
   },
   {
     title: "Cô Nàng Bản Lĩnh & Trí Tuệ 🌟",
     badge: "Chỉ số thông thái: 99.9%",
-    desc: "Tự tin, thông minh và luôn kiên trì theo đuổi mục tiêu. Bạn chính là hình mẫu đóa hoa hiện đại vừa xinh đẹp vừa tài năng!",
-    privilege: "Đặc quyền 20/10: Được miễn gọi lên bảng kiểm tra bài cũ và luôn nhận được điểm 10 rực rỡ!"
+    desc: "Tự tin, thông minh và luôn kiên trì theo đuổi mục tiêu. Bạn chính là hình mẫu đóa hoa hiện đại vừa xinh đẹp vừa tài năng!"
   },
   {
     title: "Đóa Hướng Dương Lan Tỏa Năng Lượng 🌻",
     badge: "Chỉ số yêu đời: 200%",
-    desc: "Ở đâu có bạn, ở đó có tiếng cười rộn rã. Bạn làm cho những tiết học căng thẳng nhất cũng trở nên thú vị và đáng nhớ!",
-    privilege: "Đặc quyền 20/10: Nhận một cơn mưa lời khen thật lòng và một ngày ngập tràn quà tặng ngọt ngào!"
+    desc: "Ở đâu có bạn, ở đó có tiếng cười rộn rã. Bạn làm cho những tiết học căng thẳng nhất cũng trở nên thú vị và đáng nhớ!"
   },
   {
     title: "Công Chúa Trực Nhật 'Bất Tử' 👑",
-    badge: "Quyền năng tối thượng: Miễn lao động",
-    desc: "Hôm nay là 20/10, bạn chỉ việc ngồi thật xinh đẹp và tận hưởng, mọi việc lau bảng, quét lớp đã có các đấng mày râu lo!",
-    privilege: "Đặc quyền 20/10: Miễn trực nhật nguyên tuần, tha hồ thảnh thơi ăn vặt cùng bạn bè!"
+    badge: "Chỉ số may mắn: 100%",
+    desc: "Hôm nay là 20/10, bạn chỉ việc ngồi thật xinh đẹp và tận hưởng, mọi việc lau bảng, quét lớp đã có các đấng mày râu lo!"
   }
 ];
 
