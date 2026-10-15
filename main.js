@@ -71,20 +71,57 @@ document.addEventListener('DOMContentLoaded', () => {
   const fortuneTrigger = document.getElementById('fortune-trigger');
   const fortuneTitle = document.getElementById('fortune-title');
   const fortuneContent = document.getElementById('fortune-content');
+  const fortuneCard = document.getElementById('fortune-card');
+
+  let isFortuneDrawing = false;
 
   if (fortuneTrigger) {
-    fortuneTrigger.addEventListener('click', () => {
+    function handleDrawFortune() {
+      if (isFortuneDrawing) return;
       if (typeof luckyFortunes !== 'undefined' && luckyFortunes.length > 0) {
-        fortuneTrigger.style.transform = 'scale(0.92) rotate(-5deg)';
-        setTimeout(() => {
-          fortuneTrigger.style.transform = '';
-        }, 200);
+        isFortuneDrawing = true;
+
+        fortuneTrigger.classList.remove('drawing');
+        void fortuneTrigger.offsetWidth;
+        fortuneTrigger.classList.add('drawing');
+
+        const rect = fortuneTrigger.getBoundingClientRect();
+        for (let i = 0; i < 7; i++) {
+          setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.className = 'click-heart';
+            const icons = ['✨', '🧧', '🌸', '💖', '🥠', '⭐'];
+            heart.textContent = icons[Math.floor(Math.random() * icons.length)];
+            heart.style.fontSize = Math.floor(Math.random() * 8 + 18) + 'px';
+            heart.style.left = (rect.left + rect.width / 2 + (Math.random() - 0.5) * 80) + 'px';
+            heart.style.top = (rect.top + rect.height / 2 + (Math.random() - 0.5) * 60) + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1100);
+          }, i * 35);
+        }
+
+        if (fortuneCard) {
+          fortuneCard.classList.remove('revealing');
+          void fortuneCard.offsetWidth;
+          fortuneCard.classList.add('revealing');
+        }
 
         const fortuneIndex = Math.floor(Math.random() * luckyFortunes.length);
         const fortune = luckyFortunes[fortuneIndex];
 
-        fortuneTitle.innerHTML = `<span>${fortune.icon}</span> <span>${fortune.type}</span>`;
-        fortuneContent.textContent = fortune.content;
+        setTimeout(() => {
+          fortuneTitle.innerHTML = `<span>${fortune.icon}</span> <span>${fortune.type}</span>`;
+          fortuneContent.textContent = fortune.content;
+          isFortuneDrawing = false;
+        }, 160);
+      }
+    }
+
+    fortuneTrigger.addEventListener('click', handleDrawFortune);
+    fortuneTrigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleDrawFortune();
       }
     });
   }
