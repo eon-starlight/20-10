@@ -45,6 +45,8 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -53,6 +55,8 @@ body {
   color: var(--text-main);
   line-height: 1.7;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -60,6 +64,8 @@ body {
 body.intro-locked {
   overflow: hidden;
   height: 100vh;
+  position: fixed;
+  width: 100%;
 }
 
 .bg-ambient {
@@ -87,6 +93,8 @@ body.intro-locked {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.65s;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .intro-overlay.fade-out {
@@ -337,6 +345,7 @@ body.intro-locked {
   align-items: center;
   position: relative;
   padding: 8.5rem 0 5.5rem;
+  overflow: hidden;
 }
 
 .hero-glow-1 {
@@ -572,6 +581,7 @@ body.intro-locked {
 .section {
   padding: 6rem 0;
   position: relative;
+  overflow: hidden;
 }
 
 .section-header {
@@ -1196,7 +1206,7 @@ body.intro-locked {
   .hero-content {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 3rem;
+    gap: 2.8rem;
   }
 
   .hero-text {
@@ -1238,6 +1248,18 @@ body.intro-locked {
 }
 
 @media (max-width: 768px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .section {
+    padding: 4.2rem 0;
+  }
+
+  .section-header {
+    margin-bottom: 2.2rem;
+  }
+
   .nav-links {
     display: none;
   }
@@ -1253,54 +1275,269 @@ body.intro-locked {
     padding: 1.5rem;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     border-bottom: 1px solid rgba(230, 210, 215, 0.5);
+    text-align: center;
+    gap: 1.2rem;
   }
 
   .mobile-menu-btn {
     display: block;
   }
 
+  .hero {
+    min-height: auto;
+    padding: 6.8rem 0 3.5rem;
+  }
+
+  .hero-glow-1,
+  .hero-glow-2 {
+    width: 200px;
+    height: 200px;
+    filter: blur(45px);
+    opacity: 0.5;
+  }
+
   .hero-title {
-    font-size: 2.6rem;
+    font-size: 2.5rem;
+  }
+
+  .hero-polaroid-frame {
+    max-width: 320px;
+    transform: rotate(0deg);
   }
 
   .polaroid-grid {
     grid-template-columns: 1fr;
-  }
-
-}
-
-@media (max-width: 480px) {
-  .hero-title {
-    font-size: 2.2rem;
-  }
-
-  .hero-actions .btn {
-    width: 100%;
-  }
-
-  .wishes-wall-wrapper {
-    padding: 1.8rem 1.2rem;
+    gap: 1.5rem;
   }
 
   .magic-mirror-card {
-    padding: 2rem 1.2rem;
+    padding: 2.2rem 1.4rem;
+  }
+
+  .fortune-wrapper {
+    padding: 2.2rem 1.4rem;
+    gap: 1.8rem;
+  }
+
+  .fortune-envelope {
+    width: 90px;
+    height: 90px;
+    font-size: 2.8rem;
+    border-radius: 20px;
+  }
+
+  .fortune-headline {
+    font-size: 1.35rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .fortune-display {
+    padding: 1.5rem 1.2rem;
+    text-align: center;
+  }
+
+  .wishes-wall-wrapper {
+    padding: 2.2rem 1.4rem;
+  }
+
+  .wall-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .lightbox-modal {
+    padding: 1rem;
+  }
+
+  .lightbox-details {
+    padding: 1.1rem 1.2rem;
+  }
+
+  .lightbox-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .section {
+    padding: 3.2rem 0;
+  }
+
+  .nav-logo {
+    font-size: 1.05rem;
+    gap: 0.4rem;
+  }
+
+  .nav-logo-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
   }
 
   .intro-card {
-    padding: 2.4rem 1.3rem 2rem;
-    border-radius: 22px;
+    padding: 2.2rem 1.25rem 1.8rem;
+    border-radius: 20px;
   }
 
   .intro-title {
-    font-size: 1.55rem;
+    font-size: 1.5rem;
   }
 
   .intro-quote {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
   }
 
   .intro-desc {
     font-size: 0.88rem;
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.3rem;
+  }
+
+  .hero-title {
+    font-size: 1.95rem;
+    line-height: 1.22;
+  }
+
+  .hero-badge {
+    font-size: 0.72rem;
+    padding: 0.35rem 0.8rem;
+  }
+
+  .hero-quote-box {
+    font-size: 1.05rem;
+  }
+
+  .hero-desc {
+    font-size: 0.9rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-polaroid-frame {
+    max-width: 280px;
+    padding: 0.75rem 0.75rem 1.25rem;
+  }
+
+  .hero-polaroid-title {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.7rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .mirror-search-box {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .mirror-search-box .mirror-input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .mirror-search-box .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .mirror-result-card {
+    padding: 1.3rem 1rem;
+    border-radius: 16px;
+  }
+
+  .mirror-award-title {
+    font-size: 1.35rem;
+  }
+
+  .mirror-award-desc {
+    font-size: 0.9rem;
+  }
+
+  .fortune-wrapper {
+    padding: 1.8rem 1rem;
+    border-radius: 18px;
+  }
+
+  .fortune-envelope {
+    width: 78px;
+    height: 78px;
+    font-size: 2.3rem;
+  }
+
+  .fortune-display {
+    padding: 1.2rem 0.9rem;
+  }
+
+  .fortune-headline {
+    font-size: 1.15rem;
+  }
+
+  .fortune-detail {
+    font-size: 0.88rem;
+  }
+
+  .polaroid-card {
+    padding: 0.75rem 0.75rem 1.2rem;
+  }
+
+  .polaroid-title {
+    font-size: 1.4rem;
+  }
+
+  .polaroid-desc {
+    font-size: 0.82rem;
+  }
+
+  .wishes-wall-wrapper {
+    padding: 1.8rem 1rem;
+    border-radius: 18px;
+  }
+
+  .wall-form {
+    gap: 0.65rem;
+  }
+
+  .wall-form .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .wall-sticky-card {
+    padding: 1rem;
+  }
+
+  .footer {
+    padding: 3.2rem 0 2rem;
+  }
+
+  .footer-logo {
+    font-size: 1.25rem;
+  }
+
+  .footer-quote {
+    font-size: 1.2rem;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 0.8rem;
   }
 }
