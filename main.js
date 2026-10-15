@@ -168,31 +168,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const RESET_VERSION_KEY = 'community_wall_reset_v1';
   const STORAGE_KEY = 'community_wall_wishes_2010';
   const wallGrid = document.getElementById('wall-grid');
   const wallForm = document.getElementById('wall-form');
   const wallNameInput = document.getElementById('wall-name');
   const wallMsgInput = document.getElementById('wall-msg');
+  const wallSubmitBtn = wallForm ? wallForm.querySelector('button[type="submit"]') : null;
 
   try {
     const isUrlClear = window.location.search.includes('clear');
-    if (!localStorage.getItem(RESET_VERSION_KEY) || isUrlClear) {
+    if (isUrlClear) {
       localStorage.removeItem(STORAGE_KEY);
-      localStorage.setItem(RESET_VERSION_KEY, 'done');
-      if (isUrlClear) {
-        history.replaceState(null, '', window.location.pathname);
-      }
+      history.replaceState(null, '', window.location.pathname);
     }
   } catch (e) {}
-
-  window.clearAllWishes = function() {
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-      renderWall();
-      showToast("Đã xóa sạch toàn bộ lời chúc trong cơ sở dữ liệu! 🌸");
-    } catch (e) {}
-  };
 
   function getSavedWishes() {
     try {
@@ -209,11 +198,13 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   }
 
-  function renderWall() {
-    if (!wallGrid) return;
-    const wishes = getSavedWishes();
+  let currentWishes = getSavedWishes();
 
-    if (wishes.length === 0) {
+  function renderWall(wishesList) {
+    if (!wallGrid) return;
+    const wishes = wishesList !== undefined ? wishesList : currentWishes;
+
+    if (!wishes || wishes.length === 0) {
       wallGrid.innerHTML = `
         <div class="wall-empty-state">
           🌸 Bức tường hoa đang chờ đón lời nhắn đầu tiên! Hãy để lại lời chúc ngọt ngào gửi tặng Mẹ, Cô giáo hoặc bạn nữ nhé.
@@ -224,17 +215,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     wallGrid.innerHTML = wishes.map(item => `
       <div class="wall-sticky-card">
-        <div class="wall-card-author">🌸 ${escapeHtml(item.author)}</div>
-        <p class="wall-card-content">${escapeHtml(item.content)}</p>
-        <div class="wall-card-time">${escapeHtml(item.time)}</div>
+        <div class="wall-card-author">🌸 ${escapeHtml(item.author || 'Bạn ẩn danh')}</div>
+        <p class="wall-card-content">${escapeHtml(item.content || '')}</p>
+        <div class="wall-card-time">${escapeHtml(item.time || '')}</div>
       </div>
     `).join('');
   }
 
-  renderWall();
+  renderWall(currentWishes);
+
+  async function loadCloudflareWishes() {
+    try {
+      const res = await fetch('/api/wishes', {
+        headers: { 'Cache-Control': 'no-cache' }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          currentWishes = data;
+          saveWishes(data);
+          renderWall(currentWishes);
+        }
+      }
+    } catch (err) {}
+  }
+
+  loadCloudflareWishes();
+  setInterval(loadCloudflareWishes, 20000);
 
   if (wallForm && wallGrid) {
-    wallForm.addEventListener('submit', (e) => {
+    wallForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const author = wallNameInput.value.trim();
       const message = wallMsgInput.value.trim();
@@ -244,20 +254,58 @@ document.addEventListener('DOMContentLoaded', () => {
       const now = new Date();
       const timeStr = `${now.toLocaleDateString('vi-VN')} lúc ${now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}`;
 
-      const newWish = {
+      const tempWish = {
         id: Date.now(),
         author: author,
         content: message,
         time: timeStr
       };
 
-      const wishes = getSavedWishes();
-      wishes.unshift(newWish);
-      saveWishes(wishes);
+      if (wallSubmitBtn) {
+        wallSubmitBtn.disabled = true;
+        wallSubmitBtn.innerHTML = '<span>Đang gửi... 🌸</span>';
+      }
 
-      renderWall();
-      wallForm.reset();
-      showToast("Lời chúc của bạn đã được lưu giữ vĩnh viễn trên bức tường! 💐");
+      try {
+        const res = await fetch('/api/wishes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            author: author,
+            content: message,
+            time: timeStr
+          })
+        });
+
+        if (res.ok) {
+          const resData = await res.json();
+          const savedWish = resData.wish || tempWish;
+          currentWishes = [savedWish, ...currentWishes.filter(w => w.id !== savedWish.id)];
+          saveWishes(currentWishes);
+          renderWall(currentWishes);
+          wallForm.reset();
+          showToast("Lời chúc của bạn đã được gửi lên bức tường! 💐");
+        } else {
+          currentWishes.unshift(tempWish);
+          saveWishes(currentWishes);
+          renderWall(currentWishes);
+          wallForm.reset();
+          showToast("Lời chúc của bạn đã được lưu lại thành công! 💐");
+        }
+      } catch (err) {
+        currentWishes.unshift(tempWish);
+        saveWishes(currentWishes);
+        renderWall(currentWishes);
+        wallForm.reset();
+        showToast("Lời chúc của bạn đã được lưu lại thành công! 💐");
+      } finally {
+        if (wallSubmitBtn) {
+          wallSubmitBtn.disabled = false;
+          wallSubmitBtn.innerHTML = '<span>Gửi Lên Bảng 🌸</span>';
+        }
+      }
     });
   }
 
