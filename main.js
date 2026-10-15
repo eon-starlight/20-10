@@ -25,21 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         introOverlay.style.display = 'none';
       }, 700);
-
-      showToast("Chào mừng bạn đến với không gian yêu thương 20/10! 🌹");
     });
-  }
-
-  const toastEl = document.getElementById('toast-msg');
-  const toastText = document.getElementById('toast-text');
-
-  function showToast(message) {
-    if (!toastEl || !toastText) return;
-    toastText.innerText = message;
-    toastEl.classList.add('show');
-    setTimeout(() => {
-      toastEl.classList.remove('show');
-    }, 2500);
   }
 
   const mirrorForm = document.getElementById('mirror-form');
@@ -50,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const mirrorResTitle = document.getElementById('mirror-res-title');
   const mirrorResBadge = document.getElementById('mirror-res-badge');
   const mirrorResDesc = document.getElementById('mirror-res-desc');
-  const mirrorResPrivilege = document.getElementById('mirror-res-privilege');
 
   if (mirrorForm) {
     mirrorForm.addEventListener('submit', (e) => {
@@ -76,10 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
           mirrorResTitle.textContent = award.title;
           mirrorResBadge.textContent = award.badge;
           mirrorResDesc.textContent = award.desc;
-          mirrorResPrivilege.innerHTML = `🎁 <strong>Đặc quyền 20/10:</strong> ${award.privilege.replace("Đặc quyền 20/10: ", "")}`;
 
           mirrorResult.style.display = 'block';
-          showToast(`Gương thần đã phong tặng danh hiệu cho ${rawName}! ✨`);
         }
       }, 750);
     });
@@ -102,8 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fortuneTitle.innerHTML = `<span>${fortune.icon}</span> <span>${fortune.type}</span>`;
         fortuneContent.textContent = fortune.content;
-
-        showToast(`Bạn vừa rút được: ${fortune.type}! 🥠`);
       }
     });
   }
@@ -286,20 +267,17 @@ document.addEventListener('DOMContentLoaded', () => {
           saveWishes(currentWishes);
           renderWall(currentWishes);
           wallForm.reset();
-          showToast("Lời chúc của bạn đã được gửi lên bức tường! 💐");
         } else {
           currentWishes.unshift(tempWish);
           saveWishes(currentWishes);
           renderWall(currentWishes);
           wallForm.reset();
-          showToast("Lời chúc của bạn đã được lưu lại thành công! 💐");
         }
       } catch (err) {
         currentWishes.unshift(tempWish);
         saveWishes(currentWishes);
         renderWall(currentWishes);
         wallForm.reset();
-        showToast("Lời chúc của bạn đã được lưu lại thành công! 💐");
       } finally {
         if (wallSubmitBtn) {
           wallSubmitBtn.disabled = false;
